@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EzzOffer — TREC Contract Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a9e6f;
+  --green-light: #e6f7f1;
+  --green-mid: #5dcaa5;
+  --green-dark: #0d6b4a;
+  --ink: #111827;
+  --ink-2: #374151;
+  --ink-3: #6b7280;
+  --ink-4: #9ca3af;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;
+  --surface-3: #f3f4f6;
+  --border: #e5e7eb;
+  --border-2: #d1d5db;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --blue: #3b82f6;
+  --blue-light: #eff6ff;
+  --red: #ef4444;
+  --red-light: #fef2f2;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface-2);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── TOP NAV ── */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+.nav-logo span { color: var(--green); }
+.nav-badge {
+  margin-left: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.nav-demo-badge {
+  margin-left: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--amber-light);
+  color: #92400e;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-tagline {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+.nav-cta {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  background: var(--green);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--green-dark); }
+
+/* ── HERO ── */
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 24px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.hero-text h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+.hero-text h1 em {
+  font-style: italic;
+  color: var(--green);
+}
+.hero-text p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+  max-width: 480px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 14px;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+.hero-stat-num {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px;
+  color: var(--ink-4);
+  margin-top: 2px;
+}
+.hero-right {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.voice-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--green-light);
+  border: 1px solid var(--green-mid);
+  border-radius: 40px;
+  font-size: 12px;
+  color: var(--green-dark);
+  font-weight: 500;
+}
+.voice-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+
+/* ── MAIN LAYOUT ── */
+.app-shell {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 0;
+  height: calc(100vh - 56px - 120px);
+  min-height: 560px;
+}
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.main-area {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── PROGRESS ── */
+.progress-bar-wrap {
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 6px;
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.progress-pct {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  min-width: 30px;
+}
+.progress-label {
+  font-size: 11px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* ── SIDEBAR NAV ── */
+.sidebar-header {
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-header p {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.sidebar-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.sidebar-sections {
+  overflow-y: auto;
+  flex: 1;
+}
+.sidebar-sections::-webkit-scrollbar { width: 4px; }
+.sidebar-sections::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+.sec-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  user-select: none;
+}
+.sec-nav-item:hover { background: var(--surface-2); }
+.sec-nav-item.active { background: var(--green-light); border-right: 3px solid var(--green); }
+.sec-nav-pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sec-nav-name {
+  font-size: 12px;
+  color: var(--ink-2);
+  flex: 1;
+}
+.sec-nav-item.active .sec-nav-name { color: var(--green-dark); font-weight: 500; }
+.sec-nav-count {
+  font-size: 11px;
+  color: var(--ink-4);
+  white-space: nowrap;
+}
+.sec-nav-count.complete { color: var(--green); }
+.check-small {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.check-small::after {
+  content: '';
+  width: 8px;
+  height: 5px;
+  border-left: 1.5px solid white;
+  border-bottom: 1.5px solid white;
+  transform: rotate(-45deg) translate(0,-1px);
+  display: block;
+}
+
+/* ── MAIN TABS ── */
+.main-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.main-tab {
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  user-select: none;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.main-tab:hover { color: var(--ink); }
+.main-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+/* ── VOICE BAR ── */
+.voice-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--green-light);
+  border-bottom: 1px solid var(--green-mid);
+  flex-shrink: 0;
+}
+.voice-bar.show { display: flex; }
+.voice-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.2s infinite; flex-shrink: 0; }
+.voice-text { font-size: 12px; color: var(--green-dark); flex: 1; }
+.voice-quote { font-weight: 600; }
+
+/* ── FIELD PANE ── */
+.field-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.field-pane::-webkit-scrollbar { width: 4px; }
+.field-pane::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+.pane { display: none; }
+.pane.active { display: block; }
+
+/* ── SECTION TITLE ── */
+.section-title-block {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.section-title-block h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--ink);
+}
+.section-title-block p {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+
+/* ── FIELDS ── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.field-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field-card.field-done {
+  border-color: var(--green);
+  background: #fbfffe;
+}
+.field-card.field-pending {
+  border-color: var(--amber);
+  background: var(--amber-light);
+}
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.field-label-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.field-done-badge {
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-weight: 600;
+}
+.field-sub {
+  font-size: 11px;
+  color: var(--ink-4);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.input-wrap {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.field-input {
+  flex: 1;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field-input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(26,158,111,0.1);
+}
+.field-input.filled {
+  border-color: var(--green);
+  background: #fbfffe;
+  color: var(--green-dark);
+  font-weight: 500;
+}
+.field-input.pending {
+  border-color: var(--amber);
+  background: var(--amber-light);
+}
+.mic-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-2);
+  background: var(--surface);
+  color: var(--ink-3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.mic-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+.mic-btn.listening { background: var(--green); border-color: var(--green); color: white; animation: pulse 1.5s infinite; }
+
+/* ── CONFIRM BAR ── */
+.confirm-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid var(--amber);
+  border-radius: var(--radius);
+}
+.confirm-text {
+  font-size: 12px;
+  color: var(--ink-2);
+  flex: 1;
+}
+.confirm-text strong { color: var(--ink); }
+.btn-confirm {
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--green);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+.btn-confirm:hover { background: var(--green-dark); }
+.btn-redo {
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-2);
+  background: white;
+  color: var(--ink-3);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── RADIO / CHECK ── */
+.option-group { display: flex; flex-direction: column; gap: 6px; }
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+  font-size: 12px;
+  color: var(--ink-2);
+  user-select: none;
+}
+.option-item:hover { background: var(--surface-2); border-color: var(--border-2); }
+.option-item.selected { background: var(--green-light); border-color: var(--green); color: var(--green-dark); }
+.option-item input { accent-color: var(--green); margin-top: 1px; flex-shrink: 0; }
+
+/* ── NAV BUTTONS ── */
+.field-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.btn-prev, .btn-next {
+  padding: 8px 18px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.btn-prev {
+  border: 1px solid var(--border-2);
+  background: white;
+  color: var(--ink-2);
+}
+.btn-prev:hover { background: var(--surface-2); }
+.btn-next {
+  border: none;
+  background: var(--green);
+  color: white;
+  margin-left: auto;
+}
+.btn-next:hover { background: var(--green-dark); }
+.btn-next:disabled { background: var(--border-2); cursor: not-allowed; }
+.field-nav-label { font-size: 11px; color: var(--ink-4); }
+
+/* ── CONTRACT VIEW ── */
+.contract-view {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+.contract-view::-webkit-scrollbar { width: 4px; }
+.contract-view::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+.contract-doc {
+  max-width: 680px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.contract-doc-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  text-align: center;
+}
+.contract-doc-header h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: var(--ink);
+}
+.contract-doc-header p { font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+.contract-body { padding: 20px 24px; }
+.contract-para { margin-bottom: 16px; }
+.contract-para-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 4px;
+}
+.contract-para-text {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.8;
+}
+.slot-filled {
+  display: inline;
+  color: var(--green-dark);
+  font-weight: 600;
+  border-bottom: 1.5px solid var(--green);
+  padding-bottom: 0px;
+}
+.slot-empty {
+  display: inline;
+  color: var(--ink-4);
+  border-bottom: 1.5px dashed var(--border-2);
+  padding-bottom: 0px;
+  font-style: italic;
+}
+.contract-sig-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.sig-block { flex: 1; }
+.sig-block-label { font-size: 10px; color: var(--ink-4); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.sig-line {
+  height: 32px;
+  border-bottom: 1px solid var(--ink-2);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  font-size: 12px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* ── SUMMARY VIEW ── */
+.summary-view {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+.summary-view::-webkit-scrollbar { width: 4px; }
+.summary-view::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+.summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.metric-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.metric-label { font-size: 10px; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+.metric-val { font-size: 20px; font-weight: 600; color: var(--ink); }
+.metric-val.green { color: var(--green); }
+.summary-sections { display: flex; flex-direction: column; gap: 10px; }
+.sum-sec {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.sum-sec-hdr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.sum-row {
+  display: flex;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  gap: 12px;
+}
+.sum-row:last-child { border-bottom: none; }
+.sum-key { color: var(--ink-3); width: 42%; flex-shrink: 0; }
+.sum-val { color: var(--ink); font-weight: 500; flex: 1; }
+.sum-val.empty { color: var(--ink-4); font-weight: 400; font-style: italic; }
+.print-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  background: white;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.print-btn:hover { background: var(--surface-2); color: var(--ink); }
+
+/* ── PARA CHECKLIST STRIP ── */
+.para-checklist {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.para-checklist-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.para-checklist-header span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+.para-checklist-prog {
+  font-size: 11px;
+  color: var(--ink-4);
+}
+.para-checklist-prog.all-done { color: var(--green); font-weight: 600; }
+.para-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  cursor: pointer;
+}
+.para-check-row:last-child { border-bottom: none; }
+.para-check-row:hover { background: var(--surface); }
+.para-check-row.is-done { background: #fbfffe; }
+.para-cb {
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid var(--border-2);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  background: white;
+}
+.para-cb.checked { background: var(--green); border-color: var(--green); }
+.para-cb.checked::after {
+  content: '';
+  display: block;
+  width: 9px;
+  height: 5px;
+  border-left: 1.5px solid white;
+  border-bottom: 1.5px solid white;
+  transform: rotate(-45deg) translate(0, -1px);
+}
+.para-cb.auto-checked { background: var(--green-light); border-color: var(--green-mid); }
+.para-cb.auto-checked::after {
+  content: '';
+  display: block;
+  width: 9px;
+  height: 5px;
+  border-left: 1.5px solid var(--green);
+  border-bottom: 1.5px solid var(--green);
+  transform: rotate(-45deg) translate(0, -1px);
+}
+.para-check-label {
+  font-size: 12px;
+  color: var(--ink-2);
+  flex: 1;
+  line-height: 1.4;
+}
+.para-check-label.done-text { color: var(--green-dark); }
+.para-check-type {
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.pct-fill { background: var(--green-light); color: var(--green-dark); }
+.pct-check { background: var(--blue-light); color: #1e40af; }
+.pct-sign { background: var(--amber-light); color: #78350f; }
+.para-check-value {
+  font-size: 11px;
+  color: var(--green-dark);
+  font-weight: 500;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--ink-4);
+}
+.footer strong { color: var(--green); }
+.footer-cta {
+  margin-left: auto;
+  padding: 6px 16px;
+  border-radius: var(--radius);
+  background: var(--green);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: white;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.25s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── PARA CHECKLIST ── */
+.para-checklist {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.para-checklist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.para-checklist-prog {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--surface-3);
+}
+.para-checklist-prog.all-done {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+.para-check-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+}
+.para-check-row:last-child { border-bottom: none; }
+.para-check-row:hover { background: var(--surface-2); }
+.para-check-row.is-done { background: #f8fffe; }
+.para-check-row.is-done:hover { background: #f0fdf9; }
+.para-cb {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  background: white;
+}
+.para-cb.checked {
+  background: var(--green);
+  border-color: var(--green);
+}
+.para-cb.checked::after {
+  content: '';
+  width: 8px;
+  height: 5px;
+  border-left: 1.5px solid white;
+  border-bottom: 1.5px solid white;
+  transform: rotate(-45deg) translate(0px, -1px);
+  display: block;
+}
+.para-cb.auto-checked {
+  background: var(--green);
+  border-color: var(--green);
+}
+.para-cb.auto-checked::after {
+  content: '';
+  width: 8px;
+  height: 5px;
+  border-left: 1.5px solid white;
+  border-bottom: 1.5px solid white;
+  transform: rotate(-45deg) translate(0px, -1px);
+  display: block;
+}
+.para-check-label {
+  flex: 1;
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+.para-check-label.done-text {
+  color: var(--green-dark);
+  text-decoration: line-through;
+  text-decoration-color: var(--green-mid);
+}
+.para-check-value {
+  font-size: 11px;
+  color: var(--green-dark);
+  font-weight: 600;
+  background: var(--green-light);
+  padding: 1px 7px;
+  border-radius: 8px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.para-check-type {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.pct-fill { background: var(--green-light); color: var(--green-dark); }
+.pct-check { background: var(--blue-light); color: #1e40af; }
+.pct-sign { background: var(--amber-light); color: #78350f; }
+.para-check-hint {
+  font-size: 10px;
+  color: var(--ink-4);
+  padding: 6px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  font-style: italic;
+}
+.pcl-divider { height: 14px; }
+.pcl-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 0;
+  margin-bottom: 6px;
+}
+.pcl-toggle-btn:hover { color: var(--green); }
+.pcl-toggle-chevron { font-size: 13px; transition: transform 0.2s; display: inline-block; }
+.pcl-toggle-chevron.open { transform: rotate(0deg); }
+.pcl-toggle-chevron.closed { transform: rotate(-90deg); }
+
+/* ── EMAIL CAPTURE MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity:0; transform:translateY(12px) scale(0.98); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+.modal-header {
+  background: var(--green);
+  padding: 24px 24px 20px;
+  position: relative;
+}
+.modal-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 10px;
+}
+.modal-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: white;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+.modal-header p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.82);
+  margin-top: 6px;
+  line-height: 1.55;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.modal-close:hover { background: rgba(255,255,255,0.35); }
+.modal-body { padding: 22px 24px 24px; }
+.modal-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.modal-perk {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.modal-perk-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.modal-form { display: flex; flex-direction: column; gap: 10px; }
+.modal-input-group { display: flex; flex-direction: column; gap: 4px; }
+.modal-input-label { font-size: 11px; font-weight: 600; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.4px; }
+.modal-input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.modal-input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(26,158,111,0.12);
+}
+.modal-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal-select {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  background: white;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.modal-select:focus { border-color: var(--green); }
+.modal-submit {
+  width: 100%;
+  height: 44px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.modal-submit:hover { background: var(--green-dark); }
+.modal-submit:disabled { background: var(--border-2); cursor: not-allowed; }
+.modal-fine-print {
+  font-size: 10px;
+  color: var(--ink-4);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.modal-success { padding: 36px 24px; text-align: center; }
+.modal-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+.modal-success h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.modal-success p { font-size: 13px; color: var(--ink-3); line-height: 1.6; }
+.modal-success-details {
+  margin: 16px 0;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.modal-success-details div { padding: 3px 0; }
+.modal-success-details strong { color: var(--ink); }
+.modal-success-close {
+  padding: 10px 28px;
+  border-radius: var(--radius);
+  background: var(--green);
+  color: white;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+/* ── BROWSER BANNER ── */
+.browser-banner {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: #fffbeb;
+  border-bottom: 1px solid #fcd34d;
+  font-size: 12px;
+  color: #78350f;
+}
+.browser-banner.show { display: flex; }
+.browser-banner-icon { font-size: 18px; flex-shrink: 0; }
+.browser-banner-text { flex: 1; line-height: 1.5; }
+.browser-banner-text strong { font-weight: 600; }
+.browser-banner-badges { display: flex; gap: 6px; flex-shrink: 0; }
+.bb-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.bb-badge-chrome { background: #dcfce7; color: #14532d; border: 1px solid #86efac; }
+.bb-badge-safari { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+.bb-badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+.bb-dismiss {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #92400e;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.bb-dismiss:hover { background: #fef3c7; }
+
+@media (max-width: 768px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .summary-metrics { grid-template-columns: repeat(2,1fr); }
+  .hero-right { display: none; }
+}
+
+/* ── PIN GATE ── */
+#pinGate {
+  position: fixed; inset: 0; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; padding: 24px;
+}
+#pinGate.hidden { display: none; }
+.pin-card {
+  background: white; border-top: 4px solid var(--green);
+  padding: 36px 32px; max-width: 360px; width: 100%;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  border-radius: var(--radius-lg); font-family: 'DM Sans', sans-serif;
+}
+.pin-card h2 { font-family: 'DM Serif Display', serif; margin: 0 0 6px; color: var(--ink); font-size: 22px; }
+.pin-card p { margin: 0 0 22px; font-size: 13px; color: var(--ink-3); font-style: italic; }
+.pin-input {
+  width: 100%; font-size: 22px; letter-spacing: 0.5em; text-align: center;
+  padding: 12px 10px; border: 1px solid var(--border-2); background: var(--surface-2);
+  color: var(--ink); margin-bottom: 16px; border-radius: var(--radius);
+}
+.pin-input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
+.pin-error { min-height: 1.2em; color: var(--red); font-size: 12.5px; margin-bottom: 14px; }
+.pin-submit {
+  width: 100%; background: var(--green); color: white; padding: 12px;
+  font-size: 14px; border: none; cursor: pointer; border-radius: var(--radius);
+  font-weight: 600; font-family: 'DM Sans', sans-serif;
+}
+.pin-submit:hover { background: var(--green-dark); }
+</style>
+</head>
+<body>
+
+<div id="pinGate">
+  <div class="pin-card">
+    <h2>Ezz<span style="color:var(--green)">Offer</span></h2>
+    <p>Enter your access PIN to continue</p>
+    <input type="password" inputmode="numeric" maxlength="6" class="pin-input" id="pinInput" placeholder="&middot;&middot;&middot;&middot;">
+    <div class="pin-error" id="pinError"></div>
+    <button class="pin-submit" id="pinSubmit">Unlock</button>
+  </div>
+</div>
+
+<div id="appShell" style="display:none;">
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-logo">Ezz<span>Offer</span></span>
+  <span class="nav-badge">TREC 20-19</span>
+  <span class="nav-demo-badge">ABS Agents</span>
+  <div class="nav-right">
+    <span class="nav-tagline">Voice-fill the new TREC contract</span>
+    <button class="nav-cta" onclick="showTab('summary', document.querySelectorAll('.main-tab')[2])">Review &amp; Finish</button>
+  </div>
+</nav>
+
+<!-- BROWSER BANNER -->
+<div class="browser-banner" id="browser-banner">
+  <span class="browser-banner-icon">&#127908;</span>
+  <span class="browser-banner-text">
+    <strong>Voice fill works best in Chrome.</strong>
+    For the full EzzOffer experience including voice input, please open this page in Google Chrome.
+    Safari support is coming soon.
+  </span>
+  <div class="browser-banner-badges">
+    <span class="bb-badge bb-badge-chrome"><span class="bb-badge-dot" style="background:#16a34a"></span>Chrome — voice ready</span>
+    <span class="bb-badge bb-badge-safari"><span class="bb-badge-dot" style="background:#9ca3af"></span>Safari — coming soon</span>
+  </div>
+  <button class="bb-dismiss" onclick="document.getElementById('browser-banner').classList.remove('show')" aria-label="Dismiss">&#10005;</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <h1>Fill a TREC contract in <em>minutes</em>,<br>not an hour.</h1>
+    <p>EzzOffer lets you voice-dictate or type every field in the TREC 20-19 One-to-Four Family Residential Contract. Watch the document populate in real time. Try it below.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">76</span><span class="hero-stat-label">fields covered</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">~8 min</span><span class="hero-stat-label">avg completion</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">PDF</span><span class="hero-stat-label">export when done</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="voice-pill">
+      <div class="voice-pill-dot"></div>
+      <span>Speak your contract. EzzOffer writes it.</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <span class="progress-pct" id="pct">0%</span>
+  <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
+  <span class="progress-label" id="ptxt">0 of 0 fields complete</span>
+</div>
+
+<!-- APP SHELL -->
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Contract sections</h3>
+      <p>Click a section to jump to it</p>
+    </div>
+    <div class="sidebar-sections" id="sidebar-sections"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="main-tabs">
+      <button class="main-tab active" onclick="showTab('fields',this)">&#9997; Fill fields</button>
+      <button class="main-tab" onclick="showTab('contract',this)">&#128196; Contract view</button>
+      <button class="main-tab" onclick="showTab('summary',this)">&#128203; Summary</button>
+    </div>
+    <div class="voice-bar" id="voice-bar">
+      <div class="voice-dot"></div>
+      <span class="voice-text" id="voice-text">Listening...</span>
+    </div>
+
+    <!-- FIELDS TAB -->
+    <div class="pane active" id="tab-fields" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+      <div class="field-pane" id="field-pane"></div>
+      <div class="field-nav">
+        <button class="btn-prev" id="btn-prev" onclick="navSection(-1)">&#8592; Previous</button>
+        <span class="field-nav-label" id="nav-label"></span>
+        <button class="btn-next" id="btn-next" onclick="navSection(1)">Next &#8594;</button>
+      </div>
+    </div>
+
+    <!-- CONTRACT TAB -->
+    <div class="pane" id="tab-contract" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+      <div class="contract-view" id="contract-view"></div>
+    </div>
+
+    <!-- SUMMARY TAB -->
+    <div class="pane" id="tab-summary" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+      <div class="summary-view" id="summary-view"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>&#169; 2026 <strong>EzzOffer</strong> &mdash; Built for Texas REALTORS&reg;</span>
+  <span>&middot; TREC 20-19 effective July 1, 2026</span>
+  <button class="footer-cta" onclick="showTab('summary', document.querySelectorAll('.main-tab')[2])">&#128190; Review &amp; export</button>
+</div>
+
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal-box">
+
+    <div id="modal-form-state">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">&#10005;</button>
+        <div class="modal-header-badge">&#128190; Export</div>
+        <h2>Review &amp; export<br>your contract.</h2>
+        <p id="export-progress-text">Fill in remaining fields, or export now with what's complete.</p>
+      </div>
+      <div class="modal-body">
+        <div class="modal-perks">
+          <div class="modal-perk"><div class="modal-perk-icon">&#128203;</div><span>Open the Contract view tab to review every paragraph before exporting</span></div>
+          <div class="modal-perk"><div class="modal-perk-icon">&#9888;</div><span>Always have your broker review before sending to any party</span></div>
+        </div>
+        <div class="modal-form">
+          <button class="modal-submit" id="export-pdf-btn" onclick="exportPdf()">
+            <span>&#128190;</span> Download PDF
+          </button>
+          <button class="modal-submit" style="background:var(--surface-3);color:var(--ink);margin-top:8px;" onclick="window.print()">
+            <span>&#128424;</span> Print / Save as PDF
+          </button>
+          <div id="export-error" style="display:none;color:#c00;font-size:12px;margin-top:10px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-success-state" style="display:none">
+      <div class="modal-success">
+        <div class="modal-success-icon">&#10003;</div>
+        <h3>PDF ready</h3>
+        <p>Your contract draft has been downloaded. Review it carefully before sending it to any party.</p>
+        <button class="modal-success-close" onclick="closeModal()">Back to contract</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+const F = {};
+let currentSection = 0;
+let recognition = null;
+let listeningId = null;
+
+const sections = [
+  { id:'s1', pill:'¶1', pillBg:'#e6f7f1', pillColor:'#0d6b4a', name:'Parties', desc:'Seller and buyer legal names', fields:[
+    { id:'seller', label:'Seller name(s)', sub:'Full legal name(s) as they will appear on the deed', type:'text', placeholder:'e.g. Robert Allen Johnson and Carol Lynn Johnson' },
+    { id:'buyer', label:'Buyer name(s)', sub:'Full legal name(s) of all buyers', type:'text', placeholder:'e.g. Antonio James Martinez' },
+  ]},
+  { id:'s2', pill:'¶2', pillBg:'#eff6ff', pillColor:'#1e40af', name:'Property', desc:'Legal description and address', fields:[
+    { id:'lot_num', label:'Lot number', sub:'Lot ___', type:'text', placeholder:'e.g. 7' },
+    { id:'block_num', label:'Block number', sub:'Block ___', type:'text', placeholder:'e.g. 3' },
+    { id:'addition', label:'Addition name', sub:'Addition (subdivision name)', type:'text', placeholder:'e.g. Mockingbird Estates' },
+    { id:'city', label:'City', sub:'City of ____', type:'text', placeholder:'e.g. Lantana' },
+    { id:'county', label:'County', sub:'County of ____, Texas', type:'text', placeholder:'e.g. Denton' },
+    { id:'address', label:'Property address / zip', sub:'Street address as it appears on the deed', type:'text', placeholder:'e.g. 123 Mockingbird Ln, Lantana TX 76226' },
+    { id:'exclusions', label:'Exclusions (2D)', sub:'Improvements/accessories seller is keeping — leave blank if none', type:'text', placeholder:'e.g. Dining room chandelier, antique door knocker' },
+  ]},
+  { id:'s3', pill:'¶3', pillBg:'#fef3c7', pillColor:'#78350f', name:'Sales Price', desc:'Cash, financing, and total', fields:[
+    { id:'cash_portion', label:'3A — Cash portion ($)', sub:'Cash buyer pays at closing, not including any financing proceeds', type:'text', placeholder:'e.g. $25,000' },
+    { id:'financing_sum', label:'3B — Sum of all financing ($)', sub:'Total from all attached financing addenda', type:'text', placeholder:'e.g. $275,000' },
+    { id:'sales_price', label:'3C — Total Sales Price ($)', sub:'Sum of 3A + 3B', type:'text', placeholder:'e.g. $300,000' },
+    { id:'financing_type', label:'3B — Financing addenda attached', type:'check', options:['Third Party Financing Addendum','Loan Assumption Addendum','Seller Financing Addendum'] },
+  ]},
+  { id:'s4', pill:'¶4', pillBg:'#f3e8ff', pillColor:'#4c1d95', name:'Leases', desc:'Residential, fixture, natural resource', fields:[
+    { id:'lease_residential', label:'4A — Residential leases', type:'check', options:['Property has residential lease(s) — attach Addendum Regarding Residential Leases'] },
+    { id:'lease_fixture', label:'4B — Fixture leases', sub:'Solar panels, propane tanks, water softener, security system, etc.', type:'check', options:['Property has fixture lease(s) — attach Addendum Regarding Fixture Leases'] },
+    { id:'lease_natural', label:'4C — Natural resource leases', sub:'Oil, gas, mineral, geothermal, water, wind, or other', type:'check', options:['Natural resource leases exist affecting this property'] },
+    { id:'lease_delivery', label:'4C — Lease delivery status', type:'radio', options:['(1) Seller has delivered copies of all Natural Resource Leases to Buyer','(2) Seller has not yet delivered — will deliver within specified days'] },
+    { id:'lease_days', label:'4C(2) — Buyer termination window (days)', sub:'Days buyer has to terminate after receiving leases — only if option (2) above', type:'text', placeholder:'e.g. 5' },
+  ]},
+  { id:'s5', pill:'¶5', pillBg:'#e6f7f1', pillColor:'#0d6b4a', name:'Earnest Money & Option', desc:'Amounts, escrow agent, option period', fields:[
+    { id:'escrow_agent', label:'Escrow Agent name', sub:'Title company or attorney serving as escrow agent', type:'text', placeholder:'e.g. Republic Title of Texas' },
+    { id:'escrow_address', label:'Escrow Agent address', type:'text', placeholder:'e.g. 100 Legacy Dr, Plano TX 75024' },
+    { id:'earnest_money', label:'Earnest money ($)', sub:'Payable to Escrow Agent within 3 days of Effective Date', type:'text', placeholder:'e.g. $5,000' },
+    { id:'option_fee', label:'Option fee ($)', sub:'Grants buyer unrestricted right to terminate during option period', type:'text', placeholder:'e.g. $500' },
+    { id:'add_earnest', label:'Additional earnest money ($)', sub:'Leave blank if none', type:'text', placeholder:'e.g. $0' },
+    { id:'add_earnest_days', label:'Days to deliver additional earnest money', sub:'Leave blank if no additional earnest money', type:'text', placeholder:'e.g. 10' },
+    { id:'option_days', label:'Option Period (days)', sub:"Buyer's unrestricted right to terminate — time is of the essence", type:'text', placeholder:'e.g. 10' },
+  ]},
+  { id:'s6', pill:'¶6', pillBg:'#fce7f3', pillColor:'#701a4a', name:'Title Policy & Survey', desc:'Expense, company, survey method', fields:[
+    { id:'title_expense', label:'6A — Title policy expense', type:'radio', options:["Seller's expense","Buyer's expense"] },
+    { id:'title_company', label:'6A — Title Company name', type:'text', placeholder:'e.g. Republic Title of Texas' },
+    { id:'survey_exception', label:'6A(8) — Survey exception on title policy', type:'radio', options:['(i) Will not be amended or deleted from title policy','(ii) Will be amended to read "shortages in area"'] },
+    { id:'survey_exception_who', label:'6A(8)(ii) — Who pays amendment cost', sub:'Only complete if option (ii) selected above', type:'radio', options:["Buyer's expense","Seller's expense"] },
+    { id:'survey_method', label:'6C — Survey method (select one)', type:'radio', options:["(1) Seller furnishes existing survey + T-47 Affidavit/Declaration","(2) Buyer obtains new survey at Buyer's expense","(3) Seller furnishes new survey at Seller's expense"] },
+    { id:'survey_days', label:'6C — Days to furnish/obtain survey', type:'text', placeholder:'e.g. 10' },
+    { id:'title_obj_days', label:'6D — Days to object to title defects', sub:'After buyer receives Commitment, Exception Documents, and survey', type:'text', placeholder:'e.g. 15' },
+    { id:'hoa_status', label:'6E(2) — HOA membership', type:'radio', options:['Property IS subject to mandatory HOA membership','Property IS NOT subject to mandatory HOA membership'] },
+  ]},
+  { id:'s7', pill:'¶7', pillBg:'#ecfdf5', pillColor:'#065f46', name:'Property Condition', desc:'Disclosures, as-is, water rights', fields:[
+    { id:'seller_disclosure', label:"7B — Seller's Disclosure Notice", type:'radio', options:['(1) Buyer has already received the Seller\'s Disclosure Notice','(2) Buyer has not received it — Seller shall deliver within specified days','(3) Seller is not required to furnish the Seller\'s Disclosure Notice'] },
+    { id:'seller_disc_days', label:'7B(2) — Days for Seller to deliver Disclosure Notice', sub:'Only complete if option (2) selected above', type:'text', placeholder:'e.g. 7' },
+    { id:'asis', label:'7D — As Is acceptance', type:'radio', options:['(1) Buyer accepts the Property As Is','(2) Buyer accepts As Is provided Seller completes specific repairs listed below'] },
+    { id:'repairs', label:'7D(2) — Specific repairs Seller must complete', sub:'List exact repairs only — no vague phrases like "subject to inspections"', type:'text', placeholder:'e.g. Replace HVAC blower motor, repair roof flashing at chimney' },
+    { id:'home_warranty', label:'7H — Home warranty reimbursement cap ($)', sub:'Max seller will reimburse buyer for residential service contract — leave blank if none', type:'text', placeholder:'e.g. $600' },
+    { id:'water_disclosure', label:"7I — Seller's Water Disclosure", type:'radio', options:['(1) Buyer has already received the Seller\'s Water Disclosure','(2) Buyer has not received it — Seller shall deliver within specified days','(3) Seller is exempt — all exemption conditions apply'] },
+    { id:'water_disc_days', label:'7I(2) — Days for Seller to deliver Water Disclosure', sub:'Only complete if option (2) selected above', type:'text', placeholder:'e.g. 7' },
+    { id:'water_supplier', label:'7I(3)(e) — Municipal water supplier name', sub:'Name of city/MUD/WSC/PWC providing water — only if exemption applies', type:'text', placeholder:'e.g. City of Lantana' },
+  ]},
+  { id:'s8', pill:'¶8', pillBg:'#f3f4f6', pillColor:'#374151', name:'Broker Disclosure', desc:'Relationship disclosure if applicable', fields:[
+    { id:'broker_disclosure', label:'8 — Broker/agent relationship disclosure', sub:'Required if broker/agent is a party or acting for related person/entity — leave blank if not applicable', type:'text', placeholder:'Describe relationship or leave blank' },
+  ]},
+  { id:'s9', pill:'¶9', pillBg:'#e6f7f1', pillColor:'#0d6b4a', name:'Closing', desc:'Closing date', fields:[
+    { id:'closing_date', label:'9A — Closing Date', sub:'On or before this date — if either party fails, non-defaulting party may exercise remedies under ¶15', type:'text', placeholder:'e.g. 07/31/2026' },
+  ]},
+  { id:'s10', pill:'¶10', pillBg:'#eff6ff', pillColor:'#1e40af', name:'Possession', desc:'When buyer takes possession', fields:[
+    { id:'possession', label:"10A — Buyer's possession", sub:'Consult your insurance agent prior to change of ownership and possession', type:'radio', options:['Upon closing and funding','According to a temporary residential lease (attach TREC form)'] },
+  ]},
+  { id:'s11', pill:'¶11', pillBg:'#f3f4f6', pillColor:'#374151', name:'Special Provisions', desc:'Additional informational items only', fields:[
+    { id:'special', label:'11 — Special provisions', sub:'For informational items only — brokers may not add/delete/modify contract provisions; consult an attorney', type:'text', placeholder:'e.g. Seller will leave refrigerator per verbal agreement; Buyer to verify school district boundaries' },
+  ]},
+  { id:'s12', pill:'¶12', pillBg:'#fef3c7', pillColor:'#78350f', name:'Settlement & Expenses', desc:'Contributions and brokerage compensation', fields:[
+    { id:'seller_contrib_buyer_exp', label:"12A(1)(b) — Seller's contribution toward Buyer's closing expenses ($)", sub:'Applied to buyer\'s expenses other than brokerage compensation', type:'text', placeholder:'e.g. $5,000' },
+    { id:'broker_comp_seller_to_buyer', label:"12B(1) — Seller contributes toward Buyer's broker compensation", sub:'Enter dollar amount or percentage of Sales Price', type:'text', placeholder:'e.g. $3,000 or 3%' },
+    { id:'broker_comp_buyer_to_seller', label:"12B(2) — Buyer contributes toward Seller's broker compensation", sub:'Enter dollar amount or percentage of Sales Price — leave blank if none', type:'text', placeholder:'e.g. $0' },
+  ]},
+  { id:'s21', pill:'¶21', pillBg:'#f3e8ff', pillColor:'#4c1d95', name:'Notices — Contacts', desc:'All party contact information', fields:[
+    { id:'buyer_address', label:'Buyer mailing address', type:'text', placeholder:'e.g. 456 Oak St, Denton TX 76201' },
+    { id:'buyer_phone', label:'Buyer phone(s)', type:'text', placeholder:'e.g. (940) 555-1234' },
+    { id:'buyer_email', label:'Buyer email(s)', type:'text', placeholder:'e.g. buyer@email.com' },
+    { id:'seller_address', label:'Seller mailing address', type:'text', placeholder:'e.g. 123 Mockingbird Ln, Lantana TX 76226' },
+    { id:'seller_phone', label:'Seller phone(s)', type:'text', placeholder:'e.g. (940) 555-5678' },
+    { id:'seller_email', label:'Seller email(s)', type:'text', placeholder:'e.g. seller@email.com' },
+    { id:'buyer_agent_name', label:"Buyer's agent name", type:'text', placeholder:'e.g. Sarah Williams' },
+    { id:'buyer_agent_phone', label:"Buyer's agent phone", type:'text', placeholder:'e.g. (972) 555-0199' },
+    { id:'buyer_agent_email', label:"Buyer's agent email", type:'text', placeholder:'e.g. s.williams@kwrealty.com' },
+    { id:'seller_agent_name', label:"Seller's agent name", type:'text', placeholder:'e.g. Mike Anderson' },
+    { id:'seller_agent_phone', label:"Seller's agent phone", type:'text', placeholder:'e.g. (940) 555-0177' },
+    { id:'seller_agent_email', label:"Seller's agent email", type:'text', placeholder:'e.g. m.anderson@cbdfw.com' },
+  ]},
+  { id:'s22', pill:'¶22', pillBg:'#eff6ff', pillColor:'#1e40af', name:'Addenda', desc:'All attached addenda and notices', fields:[
+    { id:'addenda_financial', label:'Financial addenda', type:'check', options:['Third Party Financing Addendum','Addendum for Sale of Other Property by Buyer','Addendum Concerning Right to Terminate Due to Lender\'s Appraisal','Seller Financing Addendum','Addendum for Section 1031 Exchange','Short Sale Addendum','Loan Assumption Addendum','Addendum for Release of Liability on Assumed Loan / Restoration of Seller\'s VA Entitlement'] },
+    { id:'addenda_leases', label:'Lease addenda', type:'check', options:["Addendum Regarding Residential Leases","Addendum Regarding Fixture Leases","Buyer's Temporary Residential Lease","Seller's Temporary Residential Lease"] },
+    { id:'addenda_tests', label:'Additional tests & reports', type:'check', options:['Addendum for Authorizing Hydrostatic Testing','Environmental Assessment, Threatened or Endangered Species, and Wetlands Addendum'] },
+    { id:'addenda_statutory', label:'Statutory disclosures & notices', type:'check', options:['Addendum for Seller\'s Disclosure of Information on Lead-Based Paint and Lead-Based Paint Hazards (pre-1978 homes)','Addendum for Property in a Propane Gas System Service Area','Addendum for Property Located Seaward of the Gulf Intracoastal Waterway','Addendum for Coastal Area Property'] },
+    { id:'addenda_other', label:'Other addenda', type:'check', options:['Addendum for Property Subject to Mandatory Membership in a Property Owners Association','Non-Realty Items Addendum','Addendum for "Back-Up" Contract','Addendum for Reservation of Oil, Gas, and Other Minerals'] },
+  ]},
+  { id:'s23', pill:'¶23', pillBg:'#f3f4f6', pillColor:'#374151', name:'Attorney Info', desc:'Optional — consult before signing', fields:[
+    { id:'buyer_atty', label:"Buyer's attorney (optional)", sub:'TREC rules prohibit brokers and sales agents from giving legal advice — read this contract carefully', type:'text', placeholder:'Name, phone, fax, email' },
+    { id:'seller_atty', label:"Seller's attorney (optional)", type:'text', placeholder:'Name, phone, fax, email' },
+  ]},
+  { id:'broker', pill:'Broker', pillBg:'#eff6ff', pillColor:'#1e40af', name:'Broker Information', desc:'License numbers, associates, supervisors', fields:[
+    { id:'listing_broker_firm', label:'Listing broker firm name', type:'text', placeholder:'e.g. Coldwell Banker Realty' },
+    { id:'listing_broker_license', label:'Listing broker firm license no.', type:'text', placeholder:'e.g. 0000000' },
+    { id:'listing_associate', label:'Listing associate name', type:'text', placeholder:'e.g. Mike Anderson' },
+    { id:'listing_associate_license', label:'Listing associate license no.', type:'text', placeholder:'e.g. 123456' },
+    { id:'listing_team', label:'Listing team name (if applicable)', type:'text', placeholder:'e.g. Anderson Group' },
+    { id:'listing_supervisor', label:'Licensed supervisor — listing side', type:'text', placeholder:'Name, phone, license no.' },
+    { id:'buyer_broker_firm', label:"Buyer's broker firm name", type:'text', placeholder:'e.g. Keller Williams Realty' },
+    { id:'buyer_broker_license', label:"Buyer's broker firm license no.", type:'text', placeholder:'e.g. 0000001' },
+    { id:'buyer_associate', label:"Buyer's associate name", type:'text', placeholder:'e.g. Sarah Williams' },
+    { id:'buyer_associate_license', label:"Buyer's associate license no.", type:'text', placeholder:'e.g. 654321' },
+    { id:'buyer_supervisor', label:"Licensed supervisor — buyer's side", type:'text', placeholder:'Name, phone, license no.' },
+    { id:'representation', label:'Representation type', type:'radio', options:["Seller only — listing broker represents Seller","Buyer only — buyer's broker represents Buyer","Intermediary — broker represents both Seller and Buyer"] },
+  ]},
+];
+
+// ── HELPERS ──
+function val(id) { return F[id] || ''; }
+function isDone(id) {
+  const v = F[id];
+  if (MANUAL_CHECKS[id]) return true;
+  if (!v) return false;
+  if (typeof v === 'object') return Object.values(v).some(x => x);
+  return v.toString().trim() !== '';
+}
+function allFields() { return sections.flatMap(s => s.fields); }
+
+function updateProgress() {
+  const total = allFields().length;
+  const done = allFields().filter(f => isDone(f.id)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct + '%';
+  document.getElementById('ptxt').textContent = done + ' of ' + total + ' fields complete';
+  updateSidebarCounts();
+}
+
+function updateSidebarCounts() {
+  sections.forEach((sec, i) => {
+    const done = sec.fields.filter(f => isDone(f.id)).length;
+    const total = sec.fields.length;
+    const countEl = document.getElementById('sc-' + sec.id);
+    const checkEl = document.getElementById('sch-' + sec.id);
+    if (countEl) {
+      countEl.textContent = done + '/' + total;
+      countEl.className = 'sec-nav-count' + (done === total ? ' complete' : '');
+    }
+    if (checkEl) checkEl.style.display = done === total ? 'flex' : 'none';
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── SIDEBAR ──
+function buildSidebar() {
+  const root = document.getElementById('sidebar-sections');
+  root.innerHTML = '';
+  sections.forEach((sec, i) => {
+    const div = document.createElement('div');
+    div.className = 'sec-nav-item' + (i === currentSection ? ' active' : '');
+    div.id = 'sni-' + i;
+    div.innerHTML = `
+      <span class="sec-nav-pill" style="background:${sec.pillBg};color:${sec.pillColor}">${sec.pill}</span>
+      <span class="sec-nav-name">${sec.name}</span>
+      <span class="check-small" id="sch-${sec.id}" style="display:none"></span>
+      <span class="sec-nav-count" id="sc-${sec.id}">0/${sec.fields.length}</span>`;
+    div.onclick = () => goToSection(i);
+    root.appendChild(div);
+  });
+}
+
+function goToSection(i) {
+  currentSection = i;
+  renderFieldPane();
+  document.querySelectorAll('.sec-nav-item').forEach((el, j) => {
+    el.classList.toggle('active', j === i);
+  });
+  document.getElementById('btn-prev').disabled = i === 0;
+  document.getElementById('btn-next').textContent = i === sections.length - 1 ? 'Finish ✓' : 'Next →';
+  document.getElementById('nav-label').textContent = (i + 1) + ' of ' + sections.length;
+}
+
+function navSection(dir) {
+  const next = currentSection + dir;
+  if (next < 0 || next >= sections.length) return;
+  goToSection(next);
+}
+
+// ── FIELD PANE ──
+const PCL_OPEN = {};
+
+function renderFieldPane() {
+  const sec = sections[currentSection];
+  const pane = document.getElementById('field-pane');
+  pane.innerHTML = `
+    <div class="section-title-block">
+      <h2>${sec.pill} — ${sec.name}</h2>
+      <p>${sec.desc}</p>
+    </div>
+    <div class="field-group" id="fg-${sec.id}"></div>`;
+  const fg = document.getElementById('fg-' + sec.id);
+  sec.fields.forEach(field => renderField(fg, field));
+}
+
+function toggleParaChecklist(secId) {
+  PCL_OPEN[secId] = !PCL_OPEN[secId];
+  const sec = sections.find(s => s.id === secId);
+  if (sec) renderParaChecklist(sec);
+}
+
+// ── PARA CHECKLIST ──
+const MANUAL_CHECKS = {};
+
+function getFieldTypeLabel(field) {
+  if (field.type === 'check' || field.type === 'radio') return { label: 'checkbox', cls: 'pct-check' };
+  if (field.id.includes('sign') || field.id.includes('initial')) return { label: 'sign', cls: 'pct-sign' };
+  return { label: 'fill in', cls: 'pct-fill' };
+}
+
+function getFieldDisplayValue(field) {
+  const v = F[field.id];
+  if (!v) return '';
+  if (typeof v === 'object') {
+    const sel = Object.entries(v).filter(([,x])=>x).map(([k])=>k);
+    return sel.length ? sel[0] + (sel.length > 1 ? ` +${sel.length-1}` : '') : '';
+  }
+  return v.toString();
+}
+
+function isFieldChecked(field) {
+  return MANUAL_CHECKS[field.id] || isDone(field.id);
+}
+
+function renderParaChecklist(sec) {
+  const container = document.getElementById('pcl-' + sec.id);
+  if (!container) return;
+  const done = sec.fields.filter(f => isFieldChecked(f)).length;
+  const total = sec.fields.length;
+  const allDone = done === total;
+  const isOpen = PCL_OPEN[sec.id] !== false;
+
+  let html = `<div class="para-checklist-header" style="cursor:pointer" onclick="toggleParaChecklist('${sec.id}')">
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="pcl-toggle-chevron ${isOpen ? 'open' : 'closed'}">&#9660;</span>
+      <span>&#9746; paragraph checklist — ${sec.pill} ${sec.name}</span>
+    </span>
+    <span class="para-checklist-prog ${allDone ? 'all-done' : ''}">${allDone ? '&#10003; All complete' : done + ' / ' + total + ' complete'}</span>
+  </div>`;
+
+  if (isOpen) {
+    sec.fields.forEach(field => {
+      const checked = isFieldChecked(field);
+      const autoDone = isDone(field.id);
+      const cbClass = autoDone ? 'auto-checked' : (MANUAL_CHECKS[field.id] ? 'checked' : '');
+      const { label, cls } = getFieldTypeLabel(field);
+      const displayVal = getFieldDisplayValue(field);
+      const rowTitle = autoDone ? 'Auto-filled from field entry' : (MANUAL_CHECKS[field.id] ? 'Manually marked — click to unmark' : 'Click to manually mark as complete');
+
+      html += `<div class="para-check-row ${checked ? 'is-done' : ''}" onclick="toggleManualCheck('${sec.id}','${field.id}')" title="${rowTitle}">
+        <div class="para-cb ${cbClass}" id="pcb-${field.id}"></div>
+        <span class="para-check-label ${checked ? 'done-text' : ''}">${field.label}</span>
+        ${displayVal ? `<span class="para-check-value" title="${displayVal}">${displayVal.length > 22 ? displayVal.slice(0,22)+'…' : displayVal}</span>` : ''}
+        <span class="para-check-type ${cls}">${label}</span>
+      </div>`;
+    });
+    html += `<div class="para-check-hint">&#9432; Fields auto-check when filled &nbsp;&middot;&nbsp; Click any row to manually mark/unmark &nbsp;&middot;&nbsp; Click header to collapse</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function toggleManualCheck(secId, fieldId) {
+  if (isDone(fieldId)) return;
+  MANUAL_CHECKS[fieldId] = !MANUAL_CHECKS[fieldId];
+  const sec = sections.find(s => s.id === secId);
+  if (sec) renderParaChecklist(sec);
+  updateProgress();
+  updateSidebarCounts();
+}
+
+function refreshParaChecklist() {
+  const sec = sections[currentSection];
+  renderParaChecklist(sec);
+}
+
+function renderField(container, field) {
+  const card = document.createElement('div');
+  card.className = 'field-card' + (isDone(field.id) ? ' field-done' : '');
+  card.id = 'card-' + field.id;
+
+  let inner = `<div class="field-label">
+    <span class="field-label-text">${field.label}</span>
+    ${isDone(field.id) ? '<span class="field-done-badge">&#10003; filled</span>' : ''}
+  </div>`;
+  if (field.sub) inner += `<div class="field-sub">${field.sub}</div>`;
+
+  if (field.type === 'text') {
+    const v = val(field.id);
+    inner += `<div class="input-wrap">
+      <input type="text" class="field-input ${v ? 'filled' : ''}" id="inp-${field.id}" value="${v}" placeholder="${field.placeholder || ''}"
+        oninput="onType('${field.id}', this.value)" onblur="onType('${field.id}', this.value)">
+      <button class="mic-btn" id="mic-${field.id}" aria-label="Voice input" onclick="startVoice('${field.id}')">&#127908;</button>
+    </div>`;
+  } else if (field.type === 'check') {
+    inner += `<div class="option-group">${field.options.map(opt => `
+      <label class="option-item ${F[field.id] && F[field.id][opt] ? 'selected' : ''}">
+        <input type="checkbox" ${F[field.id] && F[field.id][opt] ? 'checked' : ''} onchange="onCheck('${field.id}','${opt.replace(/'/g,"\\'")}',this.checked)"> ${opt}
+      </label>`).join('')}</div>`;
+  } else if (field.type === 'radio') {
+    inner += `<div class="option-group">${field.options.map(opt => `
+      <label class="option-item ${F[field.id] === opt ? 'selected' : ''}">
+        <input type="radio" name="${field.id}" ${F[field.id] === opt ? 'checked' : ''} onchange="onRadio('${field.id}','${opt.replace(/'/g,"\\'")}')"> ${opt}
+      </label>`).join('')}</div>`;
+  }
+  card.innerHTML = inner;
+  container.appendChild(card);
+}
+
+function refreshCard(fieldId) {
+  const sec = sections[currentSection];
+  const field = sec.fields.find(f => f.id === fieldId);
+  if (!field) return;
+  const card = document.getElementById('card-' + fieldId);
+  if (!card) return;
+  card.className = 'field-card' + (isDone(fieldId) ? ' field-done' : '');
+  const badge = card.querySelector('.field-done-badge');
+  const labelSpan = card.querySelector('.field-label-text');
+  if (isDone(fieldId) && !badge) {
+    const span = document.createElement('span');
+    span.className = 'field-done-badge';
+    span.innerHTML = '&#10003; filled';
+    labelSpan.parentNode.appendChild(span);
+  } else if (!isDone(fieldId) && badge) badge.remove();
+}
+
+function onType(id, v) {
+  F[id] = v;
+  const inp = document.getElementById('inp-' + id);
+  if (inp) inp.classList.toggle('filled', v.trim() !== '');
+  refreshCard(id);
+  updateProgress();
+}
+
+function onCheck(id, opt, checked) {
+  if (!F[id]) F[id] = {};
+  F[id][opt] = checked;
+  const label = event.target.closest('.option-item');
+  if (label) label.classList.toggle('selected', checked);
+  refreshCard(id);
+  updateProgress();
+}
+
+function onRadio(id, opt) {
+  F[id] = opt;
+  document.querySelectorAll(`[name="${id}"]`).forEach(r => {
+    r.closest('.option-item').classList.toggle('selected', r.value === opt || r.checked);
+  });
+  refreshCard(id);
+  updateProgress();
+}
+
+// ── VOICE ──
+function normalize(text, fieldId) {
+  let t = text.toLowerCase().trim();
+  const moneyPats = [
+    [/(\d+\.?\d*)\s*k\b/, m => '$' + Number(m[1] * 1000).toLocaleString()],
+    [/(\d+\.?\d*)\s*grand/, m => '$' + Number(m[1] * 1000).toLocaleString()],
+    [/five\s*thousand/, '$5,000'], [/ten\s*thousand/, '$10,000'],
+    [/twenty\s*thousand/, '$20,000'], [/twenty.five\s*thousand/, '$25,000'],
+    [/fifty\s*thousand/, '$50,000'], [/one\s*hundred\s*thousand/, '$100,000'],
+    [/two\s*hundred\s*fifty\s*thousand/, '$250,000'], [/three\s*hundred\s*thousand/, '$300,000'],
+    [/four\s*hundred\s*thousand/, '$400,000'], [/five\s*hundred\s*thousand/, '$500,000'],
+    [/five\s*hundred\b/, '$500'], [/one\s*hundred\b/, '$100'], [/two\s*hundred\b/, '$200'],
+    [/zero|none|nothing|leave\s*(it\s*)?blank|skip/, ''],
+  ];
+  const dayPats = [
+    [/one\s*week|seven\s*days/, '7'], [/ten\s*days/, '10'],
+    [/two\s*weeks|fourteen\s*days/, '14'], [/three\s*weeks|twenty.one\s*days/, '21'],
+    [/thirty\s*days|a\s*month/, '30'], [/forty.five\s*days/, '45'],
+    [/sixty\s*days|two\s*months/, '60'], [/five\s*days/, '5'], [/three\s*days/, '3'],
+  ];
+
+  const isMoney = ['money','price','fee','contrib','exp','warranty','cash','financing','broker_comp','sales'].some(k => fieldId.includes(k));
+  const isDays = fieldId.includes('days') || fieldId.includes('period');
+  const isDate = fieldId.includes('date');
+
+  if (isMoney) {
+    for (const [pat, rep] of moneyPats) {
+      if (typeof rep === 'function') { const m = t.match(pat); if (m) return rep(m); }
+      else if (pat.test(t)) return rep;
+    }
+    const num = t.match(/\$?([\d,]+)/);
+    if (num) return '$' + Number(num[1].replace(/,/g, '')).toLocaleString();
+  }
+  if (isDays) {
+    for (const [p, r] of dayPats) if (p.test(t)) return r;
+    const n = t.match(/\d+/); if (n) return n[0];
+  }
+  if (isDate) {
+    const months = { january:'01', february:'02', march:'03', april:'04', may:'05', june:'06', july:'07', august:'08', september:'09', october:'10', november:'11', december:'12' };
+    for (const [mn, mm] of Object.entries(months)) {
+      if (t.includes(mn)) { const d = t.match(/\d+/); if (d) return mm + '/' + d[0].padStart(2,'0') + '/2026'; }
+    }
+  }
+  const isLotBlock = fieldId === 'lot_num' || fieldId === 'block_num';
+  if (isLotBlock) {
+    const wordNums = { one:'1',two:'2',three:'3',four:'4',five:'5',six:'6',seven:'7',eight:'8',nine:'9',ten:'10',eleven:'11',twelve:'12',thirteen:'13',fourteen:'14',fifteen:'15',sixteen:'16',seventeen:'17',eighteen:'18',nineteen:'19',twenty:'20',thirty:'30',forty:'40',fifty:'50' };
+    for (const [word, num] of Object.entries(wordNums)) { if (t === word || t.startsWith(word + ' ')) return num; }
+    const n = t.match(/\d+/); if (n) return n[0];
+  }
+  return text.trim();
+}
+
+function startVoice(fieldId) {
+  const btn = document.getElementById('mic-' + fieldId);
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    showToast('Voice not supported in this browser — Chrome works best.');
+    return;
+  }
+  if (listeningId === fieldId) {
+    if (recognition) recognition.stop();
+    listeningId = null;
+    if (btn) btn.classList.remove('listening');
+    document.getElementById('voice-bar').classList.remove('show');
+    return;
+  }
+  if (recognition) recognition.stop();
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+  listeningId = fieldId;
+  if (btn) btn.classList.add('listening');
+  const sec = sections[currentSection];
+  const field = sec.fields.find(f => f.id === fieldId);
+  document.getElementById('voice-bar').classList.add('show');
+  document.getElementById('voice-text').innerHTML = `Listening for <span class="voice-quote">"${field ? field.label : fieldId}"</span>...`;
+
+  recognition.onresult = e => {
+    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+    const normalized = normalize(transcript, fieldId);
+    document.getElementById('voice-text').innerHTML = `Heard: <span class="voice-quote">"${transcript}"</span>`;
+    showConfirm(fieldId, normalized, transcript);
+  };
+  recognition.onend = () => {
+    listeningId = null;
+    if (btn) btn.classList.remove('listening');
+    document.getElementById('voice-bar').classList.remove('show');
+  };
+  recognition.onerror = () => {
+    listeningId = null;
+    if (btn) btn.classList.remove('listening');
+    document.getElementById('voice-bar').classList.remove('show');
+    showToast('Could not hear audio — try again or type the value.');
+  };
+  recognition.start();
+}
+
+function showConfirm(fieldId, normalized, raw) {
+  const inp = document.getElementById('inp-' + fieldId);
+  if (!inp) return;
+  inp.value = normalized;
+  inp.classList.add('pending');
+  inp.classList.remove('filled');
+  const card = document.getElementById('card-' + fieldId);
+  let bar = document.getElementById('cfbar-' + fieldId);
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.className = 'confirm-bar';
+    bar.id = 'cfbar-' + fieldId;
+    card.appendChild(bar);
+  }
+  bar.innerHTML = `<span class="confirm-text">Voice: "<strong>${raw}</strong>" → <strong>${normalized || '(blank)'}</strong></span>
+    <button class="btn-confirm" onclick="confirmVoice('${fieldId}')">&#10003; Confirm</button>
+    <button class="btn-redo" onclick="redoVoice('${fieldId}')">Re-say</button>`;
+  card.className = 'field-card field-pending';
+}
+
+function confirmVoice(fieldId) {
+  const inp = document.getElementById('inp-' + fieldId);
+  if (!inp) return;
+  F[fieldId] = inp.value;
+  inp.classList.remove('pending');
+  inp.classList.toggle('filled', inp.value.trim() !== '');
+  const bar = document.getElementById('cfbar-' + fieldId);
+  if (bar) bar.remove();
+  refreshCard(fieldId);
+  updateProgress();
+  showToast('&#10003; Field confirmed');
+}
+
+function redoVoice(fieldId) {
+  const bar = document.getElementById('cfbar-' + fieldId);
+  if (bar) bar.remove();
+  const inp = document.getElementById('inp-' + fieldId);
+  if (inp) { inp.classList.remove('pending'); inp.value = val(fieldId); inp.classList.toggle('filled', !!val(fieldId)); }
+  const card = document.getElementById('card-' + fieldId);
+  if (card) card.className = 'field-card' + (isDone(fieldId) ? ' field-done' : '');
+  startVoice(fieldId);
+}
+
+// ── TABS ──
+function showTab(id, btn) {
+  document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['tab-fields','tab-contract','tab-summary'].forEach(t => {
+    document.getElementById(t).classList.toggle('active', t === 'tab-' + id);
+    document.getElementById(t).style.display = t === 'tab-' + id ? 'flex' : 'none';
+  });
+  if (id === 'contract') renderContract();
+  if (id === 'summary') renderSummary();
+}
+
+// ── CONTRACT VIEW ──
+function slot(id, fallback, suffix) {
+  const v = val(id);
+  if (v) return `<span class="slot-filled">${v}${suffix || ''}</span>`;
+  return `<span class="slot-empty">${fallback}</span>`;
+}
+function checkSlot(id) {
+  const v = F[id];
+  if (!v) return '<span class="slot-empty">none selected</span>';
+  if (typeof v === 'object') {
+    const sel = Object.entries(v).filter(([,x])=>x).map(([k])=>k);
+    if (!sel.length) return '<span class="slot-empty">none selected</span>';
+    return '<span class="slot-filled">' + sel.join(', ') + '</span>';
+  }
+  return `<span class="slot-filled">${v}</span>`;
+}
+
+function renderContract() {
+  const addr = val('address') || '[Property Address]';
+  document.getElementById('contract-view').innerHTML = `
+  <div class="contract-doc">
+    <div class="contract-doc-header">
+      <h3>One to Four Family Residential Contract (Resale)</h3>
+      <p>TREC NO. 20-19 &middot; mandatory July 1, 2026 &middot; ${addr} &middot; Draft prepared with EzzOffer &mdash; review with your broker before use</p>
+    </div>
+    <div class="contract-body">
+      <div class="contract-para">
+        <div class="contract-para-label">¶1 — Parties</div>
+        <div class="contract-para-text">${slot('seller','[Seller name]')} agrees to sell and convey to ${slot('buyer','[Buyer name]')} the Property defined below.</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶2 — Property</div>
+        <div class="contract-para-text">Lot ${slot('lot_num','___')} Block ${slot('block_num','___')}, ${slot('addition','[Addition]')}, City of ${slot('city','[City]')}, County of ${slot('county','[County]')}, Texas, known as ${slot('address','[Address]')}. Exclusions: ${slot('exclusions','none stated')}.</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶3 — Sales Price</div>
+        <div class="contract-para-text">Cash portion: ${slot('cash_portion','$___')} &nbsp;&middot;&nbsp; Financing: ${slot('financing_sum','$___')} &nbsp;&middot;&nbsp; <strong>Total Sales Price: ${slot('sales_price','$___')}</strong><br>Financing addenda: ${checkSlot('financing_type')}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶4 — Leases</div>
+        <div class="contract-para-text">Residential leases: ${checkSlot('lease_residential')} &nbsp;&middot;&nbsp; Fixture leases: ${checkSlot('lease_fixture')} &nbsp;&middot;&nbsp; Natural resource leases: ${checkSlot('lease_natural')}<br>Delivery status: ${slot('lease_delivery','[not selected]')}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶5 — Earnest Money &amp; Option</div>
+        <div class="contract-para-text">Buyer shall deliver ${slot('earnest_money','$___')} as earnest money and ${slot('option_fee','$___')} as option fee to ${slot('escrow_agent','[Escrow Agent]')} at ${slot('escrow_address','[address]')} within 3 days of the Effective Date.<br>Option Period: ${slot('option_days','___')} days. ${val('add_earnest') ? 'Additional earnest money: ' + slot('add_earnest','') + ' due within ' + slot('add_earnest_days','___') + ' days.' : ''}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶6 — Title Policy &amp; Survey</div>
+        <div class="contract-para-text">Title policy at ${slot('title_expense','[Seller/Buyer]')} expense &nbsp;&middot;&nbsp; Title Company: ${slot('title_company','[Company]')}<br>Survey: ${slot('survey_method','[method not selected]')} within ${slot('survey_days','___')} days &nbsp;&middot;&nbsp; Exception: ${slot('survey_exception','[not selected]')}<br>Title objection period: ${slot('title_obj_days','___')} days &nbsp;&middot;&nbsp; HOA: ${slot('hoa_status','[not selected]')}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶7 — Property Condition</div>
+        <div class="contract-para-text">Seller's Disclosure: ${slot('seller_disclosure','[not selected]')} ${val('seller_disc_days') ? '— deliver within ' + slot('seller_disc_days','') + ' days' : ''}<br>Acceptance: ${slot('asis','[not selected]')} ${val('repairs') ? '&nbsp;&middot;&nbsp; Repairs: ' + slot('repairs','') : ''}<br>Water Disclosure: ${slot('water_disclosure','[not selected]')} ${val('water_disc_days') ? '— deliver within ' + slot('water_disc_days','') + ' days' : ''} ${val('water_supplier') ? '&nbsp;&middot;&nbsp; Supplier: ' + slot('water_supplier','') : ''}<br>${val('home_warranty') ? 'Home warranty reimbursement cap: ' + slot('home_warranty','') : ''}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶9 — Closing</div>
+        <div class="contract-para-text">Closing Date: on or before ${slot('closing_date','[date]')}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶10 — Possession</div>
+        <div class="contract-para-text">Seller shall deliver possession: ${slot('possession','[not selected]')}</div>
+      </div>
+      ${val('special') ? `<div class="contract-para"><div class="contract-para-label">¶11 — Special Provisions</div><div class="contract-para-text">${slot('special','')}</div></div>` : ''}
+      <div class="contract-para">
+        <div class="contract-para-label">¶12 — Settlement &amp; Expenses</div>
+        <div class="contract-para-text">Seller's contribution toward Buyer's closing expenses: ${slot('seller_contrib_buyer_exp','$0')}<br>Seller contribution toward Buyer's broker: ${slot('broker_comp_seller_to_buyer','$0')} &nbsp;&middot;&nbsp; Buyer contribution toward Seller's broker: ${slot('broker_comp_buyer_to_seller','$0')}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶21 — Notices</div>
+        <div class="contract-para-text">
+          Buyer: ${slot('buyer','[name]')} &nbsp;&middot;&nbsp; ${slot('buyer_address','[address]')} &nbsp;&middot;&nbsp; ${slot('buyer_phone','[phone]')} &nbsp;&middot;&nbsp; ${slot('buyer_email','[email]')}<br>
+          Seller: ${slot('seller','[name]')} &nbsp;&middot;&nbsp; ${slot('seller_address','[address]')} &nbsp;&middot;&nbsp; ${slot('seller_phone','[phone]')} &nbsp;&middot;&nbsp; ${slot('seller_email','[email]')}<br>
+          Buyer's agent: ${slot('buyer_agent_name','[name]')} &nbsp;&middot;&nbsp; ${slot('buyer_agent_phone','[phone]')} &nbsp;&middot;&nbsp; ${slot('buyer_agent_email','[email]')}<br>
+          Seller's agent: ${slot('seller_agent_name','[name]')} &nbsp;&middot;&nbsp; ${slot('seller_agent_phone','[phone]')} &nbsp;&middot;&nbsp; ${slot('seller_agent_email','[email]')}
+        </div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">¶22 — Addenda attached</div>
+        <div class="contract-para-text">Financial: ${checkSlot('addenda_financial')}<br>Leases: ${checkSlot('addenda_leases')}<br>Tests &amp; Reports: ${checkSlot('addenda_tests')}<br>Statutory: ${checkSlot('addenda_statutory')}<br>Other: ${checkSlot('addenda_other')}</div>
+      </div>
+      <div class="contract-para">
+        <div class="contract-para-label">Broker Information</div>
+        <div class="contract-para-text">Listing firm: ${slot('listing_broker_firm','[firm]')} &nbsp;&middot;&nbsp; License: ${slot('listing_broker_license','[no.]')} &nbsp;&middot;&nbsp; Associate: ${slot('listing_associate','[name]')} &nbsp;&middot;&nbsp; License: ${slot('listing_associate_license','[no.]')}<br>Buyer's firm: ${slot('buyer_broker_firm','[firm]')} &nbsp;&middot;&nbsp; License: ${slot('buyer_broker_license','[no.]')} &nbsp;&middot;&nbsp; Associate: ${slot('buyer_associate','[name]')} &nbsp;&middot;&nbsp; License: ${slot('buyer_associate_license','[no.]')}<br>Representation: ${slot('representation','[not selected]')}</div>
+      </div>
+      <div class="contract-sig-row">
+        <div class="sig-block"><div class="sig-block-label">Buyer</div><div class="sig-line">${val('buyer') || ''}</div></div>
+        <div class="sig-block"><div class="sig-block-label">Seller</div><div class="sig-line">${val('seller') || ''}</div></div>
+        <div class="sig-block"><div class="sig-block-label">Effective Date (broker fills in)</div><div class="sig-line"></div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── SUMMARY ──
+function renderSummary() {
+  const total = allFields().length;
+  const done = allFields().filter(f => isDone(f.id)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  let html = `<div class="summary-metrics">
+    <div class="metric-card"><div class="metric-label">Completion</div><div class="metric-val green">${pct}%</div></div>
+    <div class="metric-card"><div class="metric-label">Fields done</div><div class="metric-val">${done} / ${total}</div></div>
+    <div class="metric-card"><div class="metric-label">Sales price</div><div class="metric-val" style="font-size:16px">${val('sales_price') || '—'}</div></div>
+    <div class="metric-card"><div class="metric-label">Closing date</div><div class="metric-val" style="font-size:16px">${val('closing_date') || '—'}</div></div>
+  </div><div class="summary-sections">`;
+  sections.forEach(sec => {
+    html += `<div class="sum-sec"><div class="sum-sec-hdr"><span style="background:${sec.pillBg};color:${sec.pillColor};padding:1px 7px;border-radius:10px;font-size:10px">${sec.pill}</span> &nbsp; ${sec.name}</div>`;
+    sec.fields.forEach(f => {
+      let display = '';
+      if (typeof F[f.id] === 'object' && F[f.id] !== null) display = Object.entries(F[f.id]).filter(([,v])=>v).map(([k])=>k).join(', ');
+      else display = F[f.id] || '';
+      html += `<div class="sum-row"><span class="sum-key">${f.label}</span><span class="sum-val ${display ? '' : 'empty'}">${display || 'not filled'}</span></div>`;
+    });
+    html += '</div>';
+  });
+  html += `</div><button class="print-btn" onclick="window.print()">&#128438; Print summary</button>`;
+  document.getElementById('summary-view').innerHTML = html;
+}
+
+
+// ── EMAIL MODAL ──
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-form-state').style.display = 'block';
+  document.getElementById('modal-success-state').style.display = 'none';
+  document.getElementById('export-error').style.display = 'none';
+
+  const total = allFields().length;
+  const done = allFields().filter(f => isDone(f.id)).length;
+  document.getElementById('export-progress-text').textContent =
+    done === total
+      ? 'All ' + total + ' fields complete — ready to export.'
+      : done + ' of ' + total + ' fields complete. You can export now and finish the rest later.';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+async function exportPdf() {
+  const btn = document.getElementById('export-pdf-btn');
+  const errorEl = document.getElementById('export-error');
+  errorEl.style.display = 'none';
+
+  btn.disabled = true;
+  btn.innerHTML = '<span>&#8987;</span> Generating PDF...';
+
+  try {
+    const response = await fetch('/.netlify/functions/generateContractPdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: F })
+    });
+
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}));
+      throw new Error(errBody.error || 'PDF generation failed (status ' + response.status + ')');
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const buyerLast = (val('buyer') || 'contract').trim().split(' ').pop().replace(/[^a-zA-Z0-9]/g, '');
+    a.download = 'trec-20-19-' + (buyerLast || 'draft').toLowerCase() + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+
+    document.getElementById('modal-form-state').style.display = 'none';
+    document.getElementById('modal-success-state').style.display = 'block';
+
+  } catch (err) {
+    console.error('PDF export error:', err);
+    errorEl.textContent = err.message || "Couldn't generate the PDF. Check your connection and try again.";
+    errorEl.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<span>&#128190;</span> Download PDF';
+}
+
+// Keyboard ESC to close
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── BROWSER DETECTION ──
+(function() {
+  const ua = navigator.userAgent;
+  const isChrome = /Chrome/.test(ua) && /Google Inc/.test(navigator.vendor);
+  const isEdge = /Edg\//.test(ua);
+  if (!isChrome || isEdge) {
+    document.getElementById('browser-banner').classList.add('show');
+  }
+})();
+
+// ── INIT ──
+buildSidebar();
+goToSection(0);
+updateProgress();
+document.getElementById('tab-contract').style.display = 'none';
+document.getElementById('tab-summary').style.display = 'none';
+
+// ── PIN GATE ──
+const EZZOFFER_PIN = "5829";
+const EZZOFFER_PIN_STORAGE_KEY = "ezzoffer_abs_unlocked";
+
+const ezPinGate = document.getElementById('pinGate');
+const ezAppShell = document.getElementById('appShell');
+const ezPinInput = document.getElementById('pinInput');
+const ezPinError = document.getElementById('pinError');
+const ezPinSubmit = document.getElementById('pinSubmit');
+
+function unlockEzzOffer() {
+  ezPinGate.classList.add('hidden');
+  ezAppShell.style.display = 'block';
+}
+
+function checkEzzOfferPin() {
+  const entered = ezPinInput.value.trim();
+  if (entered === EZZOFFER_PIN) {
+    try { localStorage.setItem(EZZOFFER_PIN_STORAGE_KEY, "true"); } catch (e) {}
+    ezPinError.textContent = '';
+    unlockEzzOffer();
+  } else {
+    ezPinError.textContent = "That PIN didn't match. Try again.";
+    ezPinInput.value = '';
+    ezPinInput.focus();
+  }
+}
+
+ezPinSubmit.addEventListener('click', checkEzzOfferPin);
+ezPinInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') checkEzzOfferPin(); });
+
+(function initEzzOfferPin() {
+  let alreadyUnlocked = false;
+  try { alreadyUnlocked = localStorage.getItem(EZZOFFER_PIN_STORAGE_KEY) === "true"; } catch (e) {}
+  if (alreadyUnlocked) {
+    unlockEzzOffer();
+  } else {
+    ezPinInput.focus();
+  }
+})();
+</script>
+</body>
+</html>
